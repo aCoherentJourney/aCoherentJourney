@@ -1,4 +1,4 @@
-# aCoherentJourney
+# A Coherent Journey
 
 ## Features
 * Create sine wave and write into file
@@ -7,7 +7,7 @@
 * Write createSound function
 * Create (dummy) data
 * Create .gitignore file; exclude packages from version control
-* Project structure (https://docs.python-guide.org/writing/structure/)
+* Project structure (https://docs.python-guide.org/writing/structure/), (https://realpython.com/python-application-layouts/)
 
 ## Changelog
 * 2018-11-14: Project start
