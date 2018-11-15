@@ -21,9 +21,9 @@ duration_s = 5.0
 each_sample_number = np.arange(duration_s * sps)
 waveform_1 = np.sin(2 * np.pi * each_sample_number * freq_hz_1 / sps)
 waveform_2 = np.sin(2 * np.pi * each_sample_number * freq_hz_2 / sps)
-waveform_bass = np.sin(2 * np.pi * each_sample_number * freq_hz_bass / sps)
+waveform_bass_0 = np.sin(2 * np.pi * each_sample_number * freq_hz_bass / sps)
 
-waveform = ((waveform_1 + waveform_2 + waveform_bass)/3) * rquiet
+waveform = ((waveform_1 + waveform_2 + waveform_bass_0)/3.) * rquiet
 waveform_integers = np.int16(waveform * 32767)
 
 waveform_bass = np.sin(2 * np.pi * each_sample_number * freq_hz_bass / sps) * rquiet

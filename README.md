@@ -12,4 +12,6 @@
 
 ## Feature wishlist
 * Read data from text file and create multiple sounds
+* Black body wave
+* Ableton Live integration
 * GUI with options to change parameters
