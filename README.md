@@ -6,9 +6,12 @@
 ## Todo
 * Write createSound function
 * Create (dummy) data
+* Create .gitignore file; exclude packages from version control
+* Project structure (https://docs.python-guide.org/writing/structure/)
 
 ## Changelog
 * 2018-11-14: Project start
+* 2018-11-15: Setup project structure; create output directory; create own file for sound synthesis;x
 
 ## Feature wishlist
 * Read data from text file and create multiple sounds
