@@ -1,4 +1,5 @@
 import numpy as np
+import csv
 from scipy.io.wavfile import write
 
 def createSineWave(dur, freq, filename):
@@ -25,3 +26,27 @@ def createSineWave(dur, freq, filename):
     # Output
     write(filename, sps, waveform_integers)
 
+
+
+
+
+
+
+
+def getInputData(filename):
+    ifile = open(filename, "rU")
+    reader = csv.reader(ifile, delimiter=",")
+
+    rownum = 0
+    a = []
+
+    for row in reader:
+        a.append(row)
+        rownum += 1
+
+
+    ifile.close()
+    return a
+
+
+    print(", ".join(a))
