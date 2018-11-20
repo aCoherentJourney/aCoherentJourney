@@ -2,6 +2,7 @@
 
 ## Features
 * Create sine wave and write into file
+* Create multipe sound files from .csv file
 
 ## Todo
 * Write createSound function
@@ -15,6 +16,7 @@
 * 2018-11-14: Project start
 * 2018-11-15: Setup project structure; create output directory; create own file for sound synthesis
 * 2018-11-15: Project structure; function createSineWave() is now callable from main.py
+* 2018-11-20: Implemented createSoundsFromFile function
 
 ## Feature wishlist
 * Read data from text file and create multiple sounds

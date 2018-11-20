@@ -5,6 +5,29 @@ from scipy.io.wavfile import write
 dur = 1.
 freq = 440
 inputFilePath = "./../data/input/testData2.csv"
+durMax = 10
+durMin = 0
+freqMax = 15000
+freqMin = 40
+
+
+def convertLinData(x, dmax, dmin):
+    a = 0.
+    if dmax < dmin:
+        a = dmax
+        dmax = dmin
+        dmin = a        
+    return (dmax - dmin) * x + dmin
+  
+def convertLogData(x, dmax, dmin):
+    if dmax < dmin:
+        a = dmax
+        dmax = dmin
+        dmin = a
+    if dmin == 0:
+        dmin = 0.01
+    return np.exp( (np.log(dmax) - np.log(dmin)) * x + np.log(dmin) )
+
 
 def createSineWave(dur, freq, outputFilePath):
     # Volume regulation
@@ -39,8 +62,8 @@ def getInputData(inputFilePath):
 def createSoundsFromFile(inputFilePath, outputFilePath):
     data = getInputData(inputFilePath)
     for i in range(len(data)):
-        dur = data[i,0]
-        freq = data[i,1]
+        dur = convertLogData(data[i,0], durMax, durMin)
+        freq = convertLogData(data[i,1], freqMax, freqMin)
         createSineWave(dur, freq, "./../data/output/" + str(outputFilePath) + "" + str(i+1) + ".wav")
 
 createSoundsFromFile(inputFilePath, "testSounds")
