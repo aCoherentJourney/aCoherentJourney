@@ -10,8 +10,8 @@ from pydub import AudioSegment
 dct = {}
 
 
-inputFilePath = "aCoherentJourneyProject/aCoherentJourney/data/input/"
-outputFilePath = "aCoherentJourneyProject/"
+inputFilePath = "./../data/input/"
+outputFilePath = "./../data/output/"
 
 
 def getInputData(inputFile):

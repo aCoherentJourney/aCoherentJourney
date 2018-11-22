@@ -1,7 +1,11 @@
 import random 
 import numpy as np
 
+inputFilePath = "./../data/input/"
+outputFilePath = "./../data/output/"
 Ndat = 50
+
+
 
 def UniformRandDataGen(x):
     dataRnd = np.random.random([x,3])
@@ -21,4 +25,4 @@ def orderDataGen(x):
 
 
 data = ExpRandDataGen(Ndat,0.1)
-np.savetxt('testData4.csv',data, fmt = "%.5f", delimiter=",")
+np.savetxt(inputFilePath + 'testData4.csv',data, fmt = "%.5f", delimiter=",")
