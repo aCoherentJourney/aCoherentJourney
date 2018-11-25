@@ -1,6 +1,8 @@
 import random 
 import numpy as np
 
+outputFilePath = "./../data/input/"
+
 Ndat = 100
 
 data = np.zeros([Ndat,3])
@@ -28,4 +30,4 @@ vol = 1-freq
 #print(freq,vol)
 data = np.array([vol, freq, time])
 data = np.transpose(data)
-np.savetxt('testData4.csv',data, fmt = "%.5f", delimiter=",")
+np.savetxt(outputFilePath + 'testData4.csv',data, fmt = "%.5f", delimiter=",")
