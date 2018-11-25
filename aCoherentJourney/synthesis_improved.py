@@ -19,6 +19,7 @@ def getInputData(inputFile):
     #print(data)
     return data
 
+
 def durMax(x,inputFile):
     data = getInputData(str(inputFilePath) + "" + str(inputFile))
     soundSilenceDurationRel = np.zeros(len(data))
