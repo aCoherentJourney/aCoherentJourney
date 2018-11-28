@@ -1,37 +1,40 @@
-import math        #import needed modules
-import pyaudio     #sudo apt-get install python-pyaudio
+import numpy as np
+from numpy import trapz
+import csv
+import random
+import os
+from scipy.io.wavfile import write
+from scipy import signal
+from pydub import audio_segment
+import matplotlib.pyplot as plt
+from scipy import fftpack
 
 
-PyAudio = pyaudio.PyAudio     #initialize pyaudio
+### Run ###
+###################################################################
 
-#See https://en.wikipedia.org/wiki/Bit_rate#Audio
-BITRATE = 16000     #number of frames per second/frameset.
+inputFile = ("testData4.csv")
+soundDurationRel = 0.2
+totalDuration = 20
+volMin = 0.5
+volMax = 1
+durMin = 0.5
+durMax = scaleDur(totalDuration,inputFile)
+freqMin = 55
+freqMax = 14080/2
+#reference frequency (adjusted via iterative halving if larger than maximum frequency)
+freqRef_hz = 440
+while freqRef_hz > freqMax:
+    freqRef_hz = freqRef_hz / 2
+while freqRef_hz < freqMin:
+    freqRef_hz = freqRef_hz * 2
+#lowest root tone frequency (larger than minimum frequency)
+rootFreqMin = freqRef_hz / 2**int( np.log2(freqRef_hz / freqMin))
+#key of preferred scale
+freqKey_hz = 196
 
-FREQUENCY = 440     #Hz, waves per second, 261.63=C4-note.
-LENGTH = 1     #seconds to play sound
-
-if FREQUENCY > BITRATE:
-    BITRATE = FREQUENCY+100
-
-NUMBEROFFRAMES = int(BITRATE * LENGTH)
-RESTFRAMES = NUMBEROFFRAMES % BITRATE
-WAVEDATA = ''
-
-
-#generating waves
-for x in range(NUMBEROFFRAMES):
- WAVEDATA = WAVEDATA+chr(int(math.sin(x/((BITRATE/FREQUENCY)/math.pi))*127+128))
-
-for x in range(RESTFRAMES):
- WAVEDATA = WAVEDATA+chr(128)
-
-p = PyAudio()
-stream = p.open(format = p.get_format_from_width(1),
-                channels = 1,
-                rate = BITRATE,
-                output = True)
-
-stream.write(WAVEDATA)
-stream.stop_stream()
-stream.close()
-p.terminate()
+#createSoundsFromFile(inputFile, "testSounds", "nomode")
+#createTimeline(inputFile, "mixed")
+#blackBodySoundGenerator(3, 440, 1, "testBlackbody")
+createSoundsFromFile(inputFile, "testSaw", "saw")
+print(".wav files generated!")
