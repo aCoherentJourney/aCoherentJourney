@@ -4,6 +4,7 @@ import csv
 import random
 import os
 from scipy.io.wavfile import write
+from scipy import signal
 from pydub import AudioSegment
 import matplotlib.pyplot as plt
 from scipy import fftpack
@@ -22,7 +23,7 @@ def getInputData(inputFile):
 
 
 ### Scales length of total sound (= sound of silences before and after sound + sound itself) to length of timeline, where absolute length of the timeline in s is a fixed parameter
-def durMax(x, inputFile):
+def scaleDur(x, inputFile):
     data = getInputData(str(inputFilePath) + "" + str(inputFile))
     # declares Numpy array for the "RELATIVE" length of total sounds
     soundSilenceDurationRel = np.zeros(len(data))
@@ -62,6 +63,26 @@ def convertLogData(x, dmax, dmin):
 
 
 ### Creates sine wave or duration dur, frequency freq and volume vol and write it to sound file
+def createSawWave(dur, freq, vol, outputFile):
+    # Volume regulation
+    rquiet = 0.01
+    # Bit rate
+    nbit = 16
+    # Samples per second
+    sps = 44100
+    # Frequency / pitch of the sine wave
+    freq_Hz = freq
+    # Duration
+    duration_s = dur
+    # Calculates waveform (basic sound processing)
+    t = np.linspace(0, duration_s, sps * duration_s)
+    waveform = signal.sawtooth(2 * np.pi * freq_Hz * t) * rquiet * vol
+    waveform_integers = np.int16(waveform * 2**(nbit-1)-1)
+    # Output
+    write(outputFile, sps, waveform_integers)
+
+
+### Creates saw wave or duration dur, frequency freq and volume vol and write it to sound file
 def createSineWave(dur, freq, vol, outputFile):
     # Volume regulation
     rquiet = 0.01
@@ -202,8 +223,9 @@ def freq2MajorConverter(freq): #    W-W-H-W-W-W-H
         interval = int(interval)
     # define the intervals of major or ionian scale
     cutInterval = [0, 2, 4, 5, 7, 9, 11]
-    # assign weights to each interval to make it sounds more "major" or ionian
-    cutIntervalWeight = [10, 1, 4, 2, 6, 1, 2]
+    # assign weights to each interval to make it sound more "major" or ionian
+    #cutIntervalWeight = [40, 1, 20, 2, 30, 1, 2]
+    cutIntervalWeight = [40, 1, 15, 2, 25, 1, 2]
     # if note is not part of the determined intervals, a random interval of that mode is chosen according to its weight
     if interval % 12 != [cutInterval[i] for i in range(len(cutInterval))]:
         interval = random.choices(cutInterval, weights = cutIntervalWeight)[0]
@@ -211,8 +233,9 @@ def freq2MajorConverter(freq): #    W-W-H-W-W-W-H
         pass
     # calculate note in major or ionian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
+
 
 ### Shifts note frequencies such that the sound of a minor or aeolian mode of a predetermined key is created
 def freq2MinorConverter(freq): #    W-H-W-W-H-W-W
@@ -237,9 +260,9 @@ def freq2MinorConverter(freq): #    W-H-W-W-H-W-W
     else:
         interval = int(interval)
     # define the intervals of minor or aeolian scale
-    cutInterval = [0, 2, 3, 5, 6, 8, 10]
-    # assign weights to each interval to make it sounds more "minor" or aeolian
-    cutIntervalWeight = [10, 1, 3, 1, 5, 1, 2]
+    cutInterval = [0, 2, 3, 5, 7, 8, 10]
+    # assign weights to each interval to make it sound more "minor" or aeolian
+    cutIntervalWeight = [40, 1, 15, 2, 25, 1, 2]
     # if note is not part of the determined intervals, a random interval of that mode is chosen according to its weight
     if interval % 12 != [cutInterval[i] for i in range(len(cutInterval))]:
         interval = random.choices(cutInterval, weights = cutIntervalWeight)[0]
@@ -247,12 +270,12 @@ def freq2MinorConverter(freq): #    W-H-W-W-H-W-W
         pass
     # calculate note in minor or aeolian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
 
 ### Creates sine with decay from data file, with first column in he data file corresponds to the volume and the second to the frequency of the sound
-def createSoundsFromFile(inputFile, outputFile):
+def createSoundsFromFile(inputFile, outputFile, mode):
     data = getInputData(str(inputFilePath) + "" + str(inputFile))
     for i in range(len(data)):
         # Duration of sine wave in s
@@ -260,16 +283,28 @@ def createSoundsFromFile(inputFile, outputFile):
         # Volume (scaled to predetermined range)
         vol = convertLinData(data[i,0], volMax, volMin)
         # Frequency (scaled to predetermined range) and converted to notes from major scale
-        freq = freq2MajorConverter(convertLogData(data[i,1], freqMax, freqMin))
-        # Create sine wave
-        createSineWave(dur, freq, vol, str(outputFilePath) + "" + str(outputFile) + "" + str(i+1) + ".wav")
-        dct['audio_%s' % int(i)] = AudioSegment.from_file(str(outputFilePath) + "testSounds" + str(int(i+1)) + ".wav")
-        # Introduce decay
-        silence = AudioSegment.silent(duration = 1000 * dur)
-        dct['audio_%s' % int(i)] = dct['audio_%s' % int(i)].append(silence, crossfade = 999 * dur)
-        dct['audio_%s' % int(i)].export(str(outputFilePath) + "" + str(outputFile) + "" + str(i+1) + ".wav", format='wav')
+        # Create saw wave
+        if mode == "saw":
+            freq = createSawWave(10, 440, 1, str(outputFilePath) + "" + str(outputFile) + ".wav")
+        else:
+            if mode == "major":
+                freq = freq2MajorConverter(convertLinData(data[i,1], freqMax, freqMin))
+            if mode == "minor":
+                freq = freq2MinorConverter(convertLinData(data[i,1], freqMax, freqMin))
+            if mode == "nomode":
+                #freq = freq2MajorConverter(convertLinData(data[i,1], freqMax, freqMin))
+                freq = freq2NotesConverter(convertLinData(data[i,1], freqMax, freqMin))
+            else:
+                freq = convertLinData(data[i,1], freqMax, freqMin)
+            # Create sine wave
+            createSineWave(dur, freq, vol, str(outputFilePath) + "" + str(outputFile) + "" + str(i+1) + ".wav")
+            dct['audio_%s' % int(i)] = AudioSegment.from_file(str(outputFilePath) + str(outputFile) + str(int(i+1)) + ".wav")
+            # Introduce decay
+            silence = AudioSegment.silent(duration = 1000 * dur)
+            dct['audio_%s' % int(i)] = dct['audio_%s' % int(i)].append(silence, crossfade = 999 * dur)
+            dct['audio_%s' % int(i)].export(str(outputFilePath) + "" + str(outputFile) + "" + str(i+1) + ".wav", format='wav')
         # Remove file to save space
-        os.remove(str(outputFilePath) + "testSounds" + str(int(i+1)) + ".wav")
+        #os.remove(str(outputFilePath) + "testSounds" + str(int(i+1)) + ".wav")
 
 
 ### Creates sound timeline of (decaying) sine waves, where the starting of each sine wave is taken from the third column of the data
@@ -284,14 +319,13 @@ def createTimeline(inputFile, outputFile):
         silence = AudioSegment.silent(duration = 1000 * silenceDuration)
         # Append sound to pause        
         dct['audio_%s' % int(i)] = silence.append(dct['audio_%s' % int(i)], crossfade=0)
-        # If the duration of the total sound is shorter than that of timeline, add silence of residual length (i.e. t_timeline = t_totalsound) to that sound
+        # If the duration of the total sound is shorter than that of timeline, add silence of residual length (i.e. t_timeline - t_totalsound) to that sound
         if soundDuration + silenceDuration < totalDuration:
             silenceDurationEnd = totalDuration - (soundDuration + silenceDuration)
             silenceEnd = AudioSegment.silent(duration=1000*silenceDurationEnd)
             dct['audio_%s' % int(i)] = dct['audio_%s' % int(i)].append(silenceEnd, crossfade=0)
     # Create silent sound file of duration equal to that of the timeline
     mixed = AudioSegment.silent(duration = 1000*totalDuration)
-    #mixed = dct['audio_%s' % int(0)]
     # Merge all sound files
     for i in range(len(data)):
         mixed = mixed.overlay(dct['audio_%s' % int(i)])
@@ -309,10 +343,10 @@ soundDurationRel = 0.2
 totalDuration = 20
 volMin = 0.5
 volMax = 1
-durMin = 0
-durMax = durMax(totalDuration,inputFile)
-freqMin = 40
-freqMax = 15000
+durMin = 0.5
+durMax = scaleDur(totalDuration,inputFile)
+freqMin = 55
+freqMax = 14080/2
 #reference frequency (adjusted via iterative halving if larger than maximum frequency)
 freqRef_hz = 440
 while freqRef_hz > freqMax:
@@ -324,8 +358,8 @@ rootFreqMin = freqRef_hz / 2**int( np.log2(freqRef_hz / freqMin))
 #key of preferred scale
 freqKey_hz = 196
 
-createSoundsFromFile(inputFile, "testSounds")
-createTimeline(inputFile, "mixed")
-blackBodySoundGenerator(3, 440, 1, "testBlackbody")
-
+#createSoundsFromFile(inputFile, "testSounds", "nomode")
+#createTimeline(inputFile, "mixed")
+#blackBodySoundGenerator(3, 440, 1, "testBlackbody")
+createSoundsFromFile(inputFile, "testSaw", "saw")
 print(".wav files generated!")

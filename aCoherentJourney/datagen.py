@@ -15,18 +15,17 @@ def ExpRandDataGen(x,y):
     dataRnd = np.exp(-np.random.random(x)**2/y)
     return dataRnd
 
-def orderDataGen(x):
-    dataOrd = np.random.random([x,3])
-    for i in range(x):
-        dataOrd[i,0] = 1.
-        dataOrd[i,1] = ( 440 * 2**((i%36)/12) - 50 ) / (15000-50)
-        dataOrd[i,2] = i/50.
+def OrderDataGen(x):
+    dataOrd = np.arange(x)/x
     return dataOrd
 
-decayStrength = 0.05
-time = UniformRandDataGen(Ndat)
-freq = ExpRandDataGen(Ndat,decayStrength)
-vol = 1-freq
+decayStrength = 0.1
+#time = UniformRandDataGen(Ndat)
+time = OrderDataGen(Ndat)
+#freq = ExpRandDataGen(Ndat,decayStrength)
+freq = ( 440 * 2**( (OrderDataGen(Ndat)) * 5 - 2) ) / 7040 
+vol = 1 - freq
+#vol =  np.sqrt( abs( -np.log(freq) * decayStrength) ) 
 #print(freq,vol)
 data = np.array([vol, freq, time])
 data = np.transpose(data)
