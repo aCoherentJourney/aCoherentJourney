@@ -1,7 +1,7 @@
 import random 
 import numpy as np
 
-outputFilePath = "./../data/input/"
+outputFilePath = "./data/input/"
 
 Ndat = 100
 
@@ -22,8 +22,8 @@ def OrderDataGen(x):
 decayStrength = 0.1
 #time = UniformRandDataGen(Ndat)
 time = OrderDataGen(Ndat)
-#freq = ExpRandDataGen(Ndat,decayStrength)
-freq = ( 440 * 2**( (OrderDataGen(Ndat)) * 5 - 2) ) / 7040 
+freq = ExpRandDataGen(Ndat,decayStrength)
+#freq = ( 440 * 2**( (OrderDataGen(Ndat)) * 5 - 2) ) / 7040 
 vol = 1 - freq
 #vol =  np.sqrt( abs( -np.log(freq) * decayStrength) ) 
 #print(freq,vol)

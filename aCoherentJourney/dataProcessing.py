@@ -1,6 +1,13 @@
+import random
+from aCoherentJourney.dataInput import *
+#import sys
+#sys.path.append('./../')
+#from test import *
+from config import *
+
 ### Scales length of total sound (= sound of silences before and after sound + sound itself) to length of timeline, where absolute length of the timeline in s is a fixed parameter
 def scaleDur(x, inputFile):
-    data = getInputData(str(inputFilePath) + "" + str(inputFile))
+    data = getInputData(inputFile)
     # declares Numpy array for the "RELATIVE" length of total sounds
     soundSilenceDurationRel = np.zeros(len(data))
     # iterate through entire data array
@@ -9,6 +16,7 @@ def scaleDur(x, inputFile):
         # optional: for variable duration (nth column contains relevant data): soundDurationRel = data[i,n]
         # takes "RELATIVE" length of silence BEFORE sound from data
         silenceDurationRel = data[i ,2]
+        soundDurationRel = data[i ,2]
         # counts "RELATIVE" total sound length ("RELATIVE" in quotes, because values can exceed 1)
         soundSilenceDurationRel[i] = soundDurationRel + silenceDurationRel
     # returns absolute total sound lenght, which is the duration of the timeline divided by the maximum "RELATIVE" total sound length

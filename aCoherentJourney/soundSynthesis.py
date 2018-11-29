@@ -1,10 +1,17 @@
+import sys
+import numpy as np
+from scipy import signal
+from scipy.io.wavfile import write
+from numpy import trapz
+from pydub import AudioSegment
+
+from .dataInput import *
+from .dataProcessing import *
+from .soundSynthesis import *
+from .soundOutput import *
+
+
 ### Define functions ###
-
-dct = {} # Create dictionary in order to iteratively declare names for variables/parameters/...
-
-inputFilePath = "./../data/input/"
-outputFilePath = "./../data/output/"
-
 
 ### Creates sine wave or duration dur, frequency freq and volume vol and write it to sound file
 def createSawWave(dur, freq, vol, outputFile):
@@ -62,6 +69,8 @@ def blackBodySoundGenerator(dur, freq, vol, outputFile):
     inflection2 = 4.62325
     # Scales frequency such that input frequency is a extremal value
     maxNu = freq / extremum
+    freqMin = 55
+    freqMax = 7040
     # Defines starting and end points of each part
     nuMin = [freqMin / extremum, freq * inflection1 / extremum, freq * inflection2 / extremum]
     nuMax = [freq * inflection1 / extremum, freq * inflection2 / extremum, freqMax / extremum]
