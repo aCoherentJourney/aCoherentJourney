@@ -13,7 +13,7 @@ from .soundOutput import *
 
 ### Define functions ###
 
-### Creates sine wave or duration dur, frequency freq and volume vol and write it to sound file
+### Creates saw wave or duration dur, frequency freq and volume vol and write it to sound file
 def createSawWave(dur, freq, vol, outputFile):
     # Volume regulation
     rquiet = 0.01
@@ -33,7 +33,27 @@ def createSawWave(dur, freq, vol, outputFile):
     write(outputFile, sps, waveform_integers)
 
 
-### Creates saw wave or duration dur, frequency freq and volume vol and write it to sound file
+### Creates square wave or duration dur, frequency freq and volume vol and write it to sound file
+def createSquareWave(dur, freq, vol, outputFile):
+    # Volume regulation
+    rquiet = 0.01
+    # Bit rate
+    nbit = 16
+    # Samples per second
+    sps = 44100
+    # Frequency / pitch of the sine wave
+    freq_Hz = freq
+    # Duration
+    duration_s = dur
+    # Calculates waveform (basic sound processing)
+    t = np.linspace(0, duration_s, sps * duration_s)
+    waveform = signal.square(2 * np.pi * freq_Hz * t) * rquiet * vol
+    waveform_integers = np.int16(waveform * 2**(nbit-1)-1)
+    # Output
+    write(outputFile, sps, waveform_integers)
+
+
+### Creates sine wave or duration dur, frequency freq and volume vol and write it to sound file
 def createSineWave(dur, freq, vol, outputFile):
     # Volume regulation
     rquiet = 0.01
@@ -56,7 +76,34 @@ def createSineWave(dur, freq, vol, outputFile):
     ### Create black body sound of duration dur, frequency freq and volume vol
     ### Generation principle: Create interference of sine waves in quasi-continuous frequency range, where contribution of each frequency bin scales according to blackbody curve (I = x**3/(exp(x)-1)) at that frequency, scaled such that the target frequency is at extremal value x = 2.82...
     ### The sound is separated into three parts beginning/ending at freqMin, inflection frequencies (0.96... and 4.63...) and freqMax.
-def blackBodySoundGenerator(dur, freq, vol, outputFile):
+np.seterr(divide='ignore', invalid='ignore')
+def createBlackBodyWave(dur, freq, vol, outputFile):
+    def BlackBody(x, maxX):
+        x = x % (2 * np.pi)
+        x = x * maxX / 2.8214393721
+        if (x.any() > 0) or (x.any() < 15.):
+            bX = x**3 / ( np.exp(x) - 1 )
+            bX = bX/1.4214*2/1.05 - 1
+        else:
+            bX = 0.
+        return bX
+    # Volume regulation
+    rquiet = 0.01
+    # Bit rate
+    nbit = 16
+    # Samples per second
+    sps = 44100
+    # Frequency / pitch of the sine wave
+    freq_Hz = freq
+    # Duration
+    duration_s = dur
+    # Calculates waveform (basic sound processing)
+    t = np.linspace(0, duration_s, sps * duration_s)
+    waveform = BlackBody(2 * np.pi * freq_Hz * t, 10) * rquiet * vol
+    waveform_integers = np.int16(waveform * 2**(nbit-1)-1)
+    # Output
+    write(outputFile, sps, waveform_integers)
+"""def blackBodySoundGenerator(dur, freq, vol, outputFile):
     # Bit rate
     nbit = 32
     # Samples per second
@@ -134,7 +181,7 @@ def blackBodySoundGenerator(dur, freq, vol, outputFile):
     mixed = low.overlay(main)
     mixed = mixed.overlay(high)
     # Output of merged sound
-    main.export(outputFilePath + outputFile + "_n" + str(int( nFreq[j] / 10**(int(np.log10(nFreq[j]))) )) + "e" + str(int(np.log10(nFreq[j]))) + "_mixed.wav")
+    main.export(outputFilePath + outputFile + "_n" + str(int( nFreq[j] / 10**(int(np.log10(nFreq[j]))) )) + "e" + str(int(np.log10(nFreq[j]))) + "_mixed.wav")"""
 
 
 
