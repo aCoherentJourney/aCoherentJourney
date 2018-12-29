@@ -20,25 +20,45 @@ def createSoundsFromFile(inputFile, outputFile, mode, sound, bar, meter, divisio
         # Duration of sine wave in s
         if bar == "none":
             durMax = scaleDur(totalDuration,inputFile)
-            dur = timeAcc(durMax * data[i,3], timeAcc)
-        else:
+            soundDuration = timeAcc(durMax * data[i,3], timeAcc)
+            silenceDuration = timeAcc(durMax * data[i,2], timeAcc)
+            # Volume (scaled to predetermined range)
+            vol = convertLinData(data[i,0], volMax, volMin)
+        if bar != "none":
             #define array that contains total duration of timeline, individual duration of sounds and silences
             durVec = scaleDurMeter(totalDuration, inputFile, bar, meter, division)
-            soundDuration = timeAcc(durVec[2*i], timeAcc)
-            silenceDuration = timeAcc(durVec[2*i+1], timeAcc)
-        # Volume (scaled to predetermined range)
-        vol = convertLinData(data[i,0], volMax, volMin)
+            #print("Length of array: " + str(len(durVec)) )
+            soundDuration = timeAcc(durVec[3*i], timeAcc)
+            silenceDuration = timeAcc(durVec[3*i+1], timeAcc)
+            # Volume (scaled to predetermined range)
+            vol = durVec[3*i+2]
+            #print(soundDuration, silenceDuration, vol)
+            #print(silenceDuration)
         # Frequency (scaled to predetermined range) and converted to notes from major scale
         # Create saw wave
         if mode == "major":
             freq = freq2MajorConverter(convertLogData(data[i,1], freqMax, freqMin))
         if mode == "minor":
             freq = freq2MinorConverter(convertLogData(data[i,1], freqMax, freqMin))
+        if mode == "dorian":
+            freq = freq2DorianConverter(convertLogData(data[i,1], freqMax, freqMin))
+        if mode == "phrygian":
+            freq = freq2PhrygianConverter(convertLogData(data[i,1], freqMax, freqMin))
+        if mode == "lydian":
+            freq = freq2LydianConverter(convertLogData(data[i,1], freqMax, freqMin))
+        if mode == "mixolydian":
+            freq = freq2MixolydianConverter(convertLogData(data[i,1], freqMax, freqMin))
+        if mode == "locrian":
+            freq = freq2LocrianConverter(convertLogData(data[i,1], freqMax, freqMin))
+        if mode == "mixolydianflat6":
+            freq = freq2MixolydianFlat6Converter(convertLogData(data[i,1], freqMax, freqMin))
         if mode == "nomode":
             #freq = freq2MajorConverter(convertLinData(data[i,1], freqMax, freqMin))
             freq = freq2NotesConverter(convertLogData(data[i,1], freqMax, freqMin))
-        if mode == "contfreq":
+        if mode == "contfreqlin":
             freq = convertLinData(data[i,1], freqMax, freqMin)
+        if mode == "contfreqllog":
+            freq = convertLogData(data[i,1], freqMax, freqMin)
         #print(freq)
         # Create saw wave if requested
         if sound == "saw":
@@ -59,7 +79,7 @@ def createSoundsFromFile(inputFile, outputFile, mode, sound, bar, meter, divisio
             #if soundDuration >= 1/beats
             #decayStart = soundDuration - 1 / (2 * beats)
         silence = AudioSegment.silent(duration = 1000 * soundDuration * decayStart)
-        dct['audio_%s' % int(i)] = dct['audio_%s' % int(i)].append(silence, crossfade = 0.9 * 1000 * soundDuration * decayStart)
+        dct['audio_%s' % int(i)] = dct['audio_%s' % int(i)].append(silence, crossfade = 0.8 * 1000 * soundDuration * decayStart)
         dct['audio_%s' % int(i)].export(outputFile + str(i+1) + '.wav', format='wav')
         # Remove file to save space
         os.remove(outputFile + str(int(i+1)) + '.wav')
@@ -78,8 +98,8 @@ def createTimeline(inputFile, outputFile, bar, meter, division):
             #define array that contains total duration of timeline, individual duration of sounds and silences
             durVec = scaleDurMeter(totalDuration, inputFile, bar, meter, division)
             #for i in range(len(data)):
-            soundDuration = timeAcc(durVec[2*i], timeAcc)
-            silenceDuration = timeAcc(durVec[2*i+1], timeAcc)
+            soundDuration = timeAcc(durVec[3*i], timeAcc)
+            silenceDuration = timeAcc(durVec[3*i+1], timeAcc)
             #print(silenceDuration)
         # Create silent sound of durations of the silence before sound
         silence = AudioSegment.silent(duration = 1000 * silenceDuration)

@@ -12,9 +12,6 @@ from config import *
 ### Run ###
 ###################################################################
 
-
-print(".wav files generated!")
-
 """getInputData(inputFilePathFile(inputFile))
 scaleDur(1,inputFilePathFile(inputFile))
 convertLinData(1,0,1)
@@ -45,5 +42,9 @@ createTimeline(inputFilePathFile(inputFile), outputFilePathFile("TestTimeline"))
 #createTimeline(inputFilePathFile(inputFile), outputFilePathFile("EMajorSineTimeline"), "none", "", "")
 #createSoundsFromFile(inputFilePathFile(inputFile), outputFilePathFile("BlackBodyRhythmSounds"), "major", "blackbody", bar, [1,3], division)
 #createTimeline(inputFilePathFile(inputFile), outputFilePathFile("AMajorBlackBodyRhythmTimeline"), bar, [1,3], division)
-createSoundsFromFile(inputFilePathFile(inputFile), outputFilePathFile("BlackBodyRhythmSounds"), "minor", "blackbody", bar, [1,3], division)
-createTimeline(inputFilePathFile(inputFile), outputFilePathFile("EMinorBlackBodyRhythmTimeline"), bar, [1,3], division)
+#createSoundsFromFile(inputFilePathFile(inputFile), outputFilePathFile("BlackBodyRhythmSounds"), "minor", "blackbody", bar, [1,3], division)
+#createTimeline(inputFilePathFile(inputFile), outputFilePathFile("AMinorBlackBodyRhythmTimelineNew"), bar, [1,3], division)
+createSoundsFromFile(inputFilePathFile(inputFile), outputFilePathFile("BlackBodyRhythmSounds"), "mixolydian", "blackbody", bar, [1,3], division)
+createTimeline(inputFilePathFile(inputFile), outputFilePathFile("GMixolydianBlackBodyRhythmTimelineNew"), bar, [0,2], division)
+
+print(".wav files generated!")

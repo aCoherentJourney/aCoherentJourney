@@ -8,19 +8,29 @@ outputFilePath = "./data/output/"
 inputFile = ("testData4")
 #inputFile = ("testData5")
 #soundDurationRel = 0.1
-totalDuration = 20.208
+#totalDuration = 20.208
+bpm = 90
+17.9439252
+#totalDuration = 20.208
 timeAcc = 1000
 bar = 4
-nBars = 8
+nBars = 4
 division = 2
-#totalDuration = 4
+totalDuration = 60. / bpm * bar * nBars
 beats = nBars * bar * division
-durRelMin = 1 / beats
-durRelMax = 8 / beats
+durRelMinBass = 2 / beats
+durRelMaxBass = 16 / beats
+durRelMinMid = 0.25 / beats
+durRelMaxMid = 0.25 / beats
+durRelMinHigh = 0.25 / beats
+durRelMaxHigh = 16 / beats
+durRelMin = durRelMinHigh
+durRelMax = durRelMaxHigh
 volMin = 0.5
 volMax = 1
-freqMin = 55
-freqMax = 14080/2
+freqMin = 440 * 2 ** (-3)
+freqMax = 440 * 2 ** (2)
+#freqMax = 14080/2
 #reference frequency (adjusted via iterative halving if larger than maximum frequency)
 freqRef_Hz = 440
 while freqRef_Hz > freqMax:
@@ -30,6 +40,6 @@ while freqRef_Hz < freqMin:
 #lowest root tone frequency (larger than minimum frequency)
 rootFreqMin = freqRef_Hz / 2**int( np.log2(freqRef_Hz / freqMin))
 #key of preferred scale
-#freqKey_Hz = 196
-freqKey_Hz = 329.628
+freqKey_Hz = 196
+#freqKey_Hz = 329.628
 #freqKey_Hz = 440

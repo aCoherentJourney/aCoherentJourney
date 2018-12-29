@@ -30,35 +30,46 @@ def scaleDurMeter(x, inputFile, bar, meter, division):
     #print(beats)
     data = getInputData(inputFile)
     # declares Numpy array for the "RELATIVE" length of total sounds
+    vol = np.zeros(len(data))
     soundSilenceDurationRel = np.zeros(len(data))
     soundDurationRel = np.zeros(len(data))
     silenceDurationRel = np.zeros(len(data))
     # iterate through entire data array
+    output = []
     for i in range(len(data)):
         # the "RELATIVE" duration of the sound itself is a fixed parameter (soundDurationRel)
         # optional: for variable duration (nth column contains relevant data): soundDurationRel = data[i,n]
         # takes "RELATIVE" length of silence BEFORE sound from data
+        vol[i] = convertLinData(data[i,0], volMax, volMin)
         silenceDurationRel[i] = data[i,2]
         soundDurationRel[i] = convertLinData(data[i,3],durRelMax, durRelMin)
         # counts "RELATIVE" total sound length ("RELATIVE" in quotes, because values can exceed 1)
         soundSilenceDurationRel[i] = soundDurationRel[i] + silenceDurationRel[i]
-        if soundSilenceDurationRel[i] > 1.:
+        if soundSilenceDurationRel[i] >= 1.:
             soundDurationRel[i] = 1 - silenceDurationRel[i]
             soundSilenceDurationRel[i] = soundDurationRel[i] + silenceDurationRel[i]
-    #scaling factor
-    scale = 1 / max(soundSilenceDurationRel)
-    output = []
-    #print(scale)
-    #np.zeros(1 + len(soundDurationRel) + len(silenceDurationRel))
-    for i in range(len(data)):
+        #scaling factor
+        #maxSoundSilenceDurationRel = max(soundSilenceDurationRel)
+        #scale = 1 / maxSoundSilenceDurationRel
+        #print(scale)
+        #np.zeros(1 + len(soundDurationRel) + len(silenceDurationRel))
+        #for i in range(len(data)):
         #soundDurationRel[i] = int(soundDurationRel[i] * scale * beats) / beats * x
-        if soundDurationRel[i] < 1 / beats:
-            soundDurationRel[i] = 1 / beats * scale * x
-        else:
-            soundDurationRel[i] = soundDurationRel[i] * scale * x
-        silenceDurationRel[i] = int(silenceDurationRel[i] * scale * beats) / beats * x
+        #silenceDurationRel[i] = int(silenceDurationRel[i] * scale * beats) / beats * x
+        silenceDurationRel[i] = int(silenceDurationRel[i] * beats) / beats * x
+        soundDurationRel[i] = soundDurationRel[i] * x
+        barBeat = beats / x
+        #print((silenceDurationRel[i] * barBeat))# % bar)
+        if int(silenceDurationRel[i] * barBeat) % bar == meter[0]:
+            vol[i] = vol[i] * 4
+        if int(silenceDurationRel[i] * barBeat) % bar == meter[1]:
+            vol[i] = vol[i] * 2
+    vol = vol / max(vol)
+    for i in range(len(data)):
         output.append(soundDurationRel[i])
         output.append(silenceDurationRel[i])
+        #print(int(silenceDurationRel[i]) % bar)
+        output.append(vol[i])
     return np.array(output)
 
 
@@ -142,7 +153,7 @@ def freq2MajorConverter(freq): #    W-W-H-W-W-W-H
         pass
     # calculate note in major or ionian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
 
@@ -183,3 +194,230 @@ def freq2MinorConverter(freq): #    W-H-W-W-H-W-W
     print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
+
+### Shifts note frequencies such that the sound of a dorian mode of a predetermined key is created
+def freq2DorianConverter(freq): #    W-H-W-W-H-W-W
+    # frequency of the key must be adjusted to the reference frequency
+    freqKey = freqKey_Hz
+    if freqKey < freqRef_Hz:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12 - 1) / 12 )
+    else:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12) / 12 )
+    #print("In key of: " + str(freqKey))
+    #generate notes
+    noteFreq = freq2NotesConverter(freq)
+    # calculate interval and the corresponding root of each note (i.e. which octave of reference note)
+    interval = np.log2( noteFreq / freqKey ) * 12
+    root = int(abs((interval/12)))
+    if interval < 0:
+        root = - root
+    else:
+        root = root
+    if interval < 0.:
+        interval = - (int(interval) + 1)
+    else:
+        interval = int(interval)
+    # define the intervals of dorian scale
+    cutInterval = [0, 2, 3, 5, 7, 9, 10]
+    # assign weights to each interval to make it sound more dorian
+    #cutIntervalWeight = [40, 1, 15, 2, 25, 1, 2]
+    cutIntervalWeight = [10, 1, 3, 2, 5, 1, 2]
+    # if note is not part of the determined intervals, a random interval of that mode is chosen according to its weight
+    if interval % 12 != [cutInterval[i] for i in range(len(cutInterval))]:
+        interval = random.choices(cutInterval, weights = cutIntervalWeight)[0]
+    else:
+        pass
+    # calculate note in dorian scale
+    noteFreq = freqKey * 2 ** (root + interval / 12)
+    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    return noteFreq
+
+
+### Shifts note frequencies such that the sound of a phrygian mode of a predetermined key is created
+def freq2PhrygianConverter(freq): #    W-H-W-W-H-W-W
+    # frequency of the key must be adjusted to the reference frequency
+    freqKey = freqKey_Hz
+    if freqKey < freqRef_Hz:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12 - 1) / 12 )
+    else:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12) / 12 )
+    #print("In key of: " + str(freqKey))
+    #generate notes
+    noteFreq = freq2NotesConverter(freq)
+    # calculate interval and the corresponding root of each note (i.e. which octave of reference note)
+    interval = np.log2( noteFreq / freqKey ) * 12
+    root = int(abs((interval/12)))
+    if interval < 0:
+        root = - root
+    else:
+        root = root
+    if interval < 0.:
+        interval = - (int(interval) + 1)
+    else:
+        interval = int(interval)
+    # define the intervals of phrygian scale
+    cutInterval = [0, 1, 3, 5, 7, 8, 10]
+    # assign weights to each interval to make it sound more phrygian
+    #cutIntervalWeight = [40, 1, 15, 2, 25, 1, 2]
+    cutIntervalWeight = [10, 1, 3, 2, 5, 1, 2]
+    # if note is not part of the determined intervals, a random interval of that mode is chosen according to its weight
+    if interval % 12 != [cutInterval[i] for i in range(len(cutInterval))]:
+        interval = random.choices(cutInterval, weights = cutIntervalWeight)[0]
+    else:
+        pass
+    # calculate note in phrygian scale
+    noteFreq = freqKey * 2 ** (root + interval / 12)
+    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    return noteFreq
+
+
+### Shifts note frequencies such that the sound of a lydian mode of a predetermined key is created
+def freq2LydianConverter(freq): #    W-H-W-W-H-W-W
+    # frequency of the key must be adjusted to the reference frequency
+    freqKey = freqKey_Hz
+    if freqKey < freqRef_Hz:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12 - 1) / 12 )
+    else:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12) / 12 )
+    #print("In key of: " + str(freqKey))
+    #generate notes
+    noteFreq = freq2NotesConverter(freq)
+    # calculate interval and the corresponding root of each note (i.e. which octave of reference note)
+    interval = np.log2( noteFreq / freqKey ) * 12
+    root = int(abs((interval/12)))
+    if interval < 0:
+        root = - root
+    else:
+        root = root
+    if interval < 0.:
+        interval = - (int(interval) + 1)
+    else:
+        interval = int(interval)
+    # define the intervals of lydian scale
+    cutInterval = [0, 2, 4, 6, 7, 9, 11]
+    # assign weights to each interval to make it sound more lydian
+    #cutIntervalWeight = [40, 1, 15, 2, 25, 1, 2]
+    cutIntervalWeight = [10, 1, 3, 2, 5, 1, 2]
+    # if note is not part of the determined intervals, a random interval of that mode is chosen according to its weight
+    if interval % 12 != [cutInterval[i] for i in range(len(cutInterval))]:
+        interval = random.choices(cutInterval, weights = cutIntervalWeight)[0]
+    else:
+        pass
+    # calculate note in lydian scale
+    noteFreq = freqKey * 2 ** (root + interval / 12)
+    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    return noteFreq
+
+
+### Shifts note frequencies such that the sound of a mixolydian mode of a predetermined key is created
+def freq2MixolydianConverter(freq): #    W-H-W-W-H-W-W
+    # frequency of the key must be adjusted to the reference frequency
+    freqKey = freqKey_Hz
+    if freqKey < freqRef_Hz:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12 - 1) / 12 )
+    else:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12) / 12 )
+    #print("In key of: " + str(freqKey))
+    #generate notes
+    noteFreq = freq2NotesConverter(freq)
+    # calculate interval and the corresponding root of each note (i.e. which octave of reference note)
+    interval = np.log2( noteFreq / freqKey ) * 12
+    root = int(abs((interval/12)))
+    if interval < 0:
+        root = - root
+    else:
+        root = root
+    if interval < 0.:
+        interval = - (int(interval) + 1)
+    else:
+        interval = int(interval)
+    # define the intervals of mixolydian scale
+    cutInterval = [0, 2, 4, 5, 7, 9, 10]
+    # assign weights to each interval to make it sound more mixolydian
+    #cutIntervalWeight = [40, 1, 15, 2, 25, 1, 2]
+    cutIntervalWeight = [10, 1, 3, 2, 5, 1, 2]
+    # if note is not part of the determined intervals, a random interval of that mode is chosen according to its weight
+    if interval % 12 != [cutInterval[i] for i in range(len(cutInterval))]:
+        interval = random.choices(cutInterval, weights = cutIntervalWeight)[0]
+    else:
+        pass
+    # calculate note in mixolydian scale
+    noteFreq = freqKey * 2 ** (root + interval / 12)
+    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    return noteFreq
+
+
+### Shifts note frequencies such that the sound of a locrian mode of a predetermined key is created
+def freq2LocrianConverter(freq): #    W-H-W-W-H-W-W
+    # frequency of the key must be adjusted to the reference frequency
+    freqKey = freqKey_Hz
+    if freqKey < freqRef_Hz:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12 - 1) / 12 )
+    else:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12) / 12 )
+    #print("In key of: " + str(freqKey))
+    #generate notes
+    noteFreq = freq2NotesConverter(freq)
+    # calculate interval and the corresponding root of each note (i.e. which octave of reference note)
+    interval = np.log2( noteFreq / freqKey ) * 12
+    root = int(abs((interval/12)))
+    if interval < 0:
+        root = - root
+    else:
+        root = root
+    if interval < 0.:
+        interval = - (int(interval) + 1)
+    else:
+        interval = int(interval)
+    # define the intervals of locrian scale
+    cutInterval = [0, 1, 3, 5, 6, 8, 10]
+    # assign weights to each interval to make it sound more locrian
+    #cutIntervalWeight = [40, 1, 15, 2, 25, 1, 2]
+    cutIntervalWeight = [10, 1, 3, 2, 5, 1, 2]
+    # if note is not part of the determined intervals, a random interval of that mode is chosen according to its weight
+    if interval % 12 != [cutInterval[i] for i in range(len(cutInterval))]:
+        interval = random.choices(cutInterval, weights = cutIntervalWeight)[0]
+    else:
+        pass
+    # calculate note in locrian scale
+    noteFreq = freqKey * 2 ** (root + interval / 12)
+    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    return noteFreq
+
+
+### Shifts note frequencies such that the sound of a mixolydian mode of a predetermined key is created
+def freq2MixolydianFlat6Converter(freq): #    W-H-W-W-H-W-W
+    # frequency of the key must be adjusted to the reference frequency
+    freqKey = freqKey_Hz
+    if freqKey < freqRef_Hz:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12 - 1) / 12 )
+    else:
+        freqKey = freqRef_Hz * 2 ** ( int(np.log2(freqKey / freqRef_Hz) * 12) / 12 )
+    #print("In key of: " + str(freqKey))
+    #generate notes
+    noteFreq = freq2NotesConverter(freq)
+    # calculate interval and the corresponding root of each note (i.e. which octave of reference note)
+    interval = np.log2( noteFreq / freqKey ) * 12
+    root = int(abs((interval/12)))
+    if interval < 0:
+        root = - root
+    else:
+        root = root
+    if interval < 0.:
+        interval = - (int(interval) + 1)
+    else:
+        interval = int(interval)
+    # define the intervals of mixolydian scale
+    cutInterval = [0, 2, 4, 5, 7, 8, 10]
+    # assign weights to each interval to make it sound more mixolydian
+    #cutIntervalWeight = [40, 1, 15, 2, 25, 1, 2]
+    cutIntervalWeight = [10, 1, 3, 2, 5, 3, 2]
+    # if note is not part of the determined intervals, a random interval of that mode is chosen according to its weight
+    if interval % 12 != [cutInterval[i] for i in range(len(cutInterval))]:
+        interval = random.choices(cutInterval, weights = cutIntervalWeight)[0]
+    else:
+        pass
+    # calculate note in mixolydian scale
+    noteFreq = freqKey * 2 ** (root + interval / 12)
+    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    return noteFreq

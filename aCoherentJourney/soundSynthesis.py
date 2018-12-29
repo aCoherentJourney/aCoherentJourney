@@ -78,12 +78,13 @@ def createSineWave(dur, freq, vol, outputFile):
     ### The sound is separated into three parts beginning/ending at freqMin, inflection frequencies (0.96... and 4.63...) and freqMax.
 np.seterr(divide='ignore', invalid='ignore')
 def createBlackBodyWave(dur, freq, vol, outputFile):
-    def BlackBody(x, maxX):
+    def BlackBody(x):#, maxX):
         x = x % (2 * np.pi)
-        x = x * maxX / 2.8214393721
+        #x = x * maxX / 2.8214393721
+        x = x * 8.9519 / 2 / np.pi
         if (x.any() > 0) or (x.any() < 15.):
             bX = x**3 / ( np.exp(x) - 1 )
-            bX = bX/1.4214*2/1.05 - 1
+            bX = 2 / 1.42143547274774 * bX - 1
         else:
             bX = 0.
         return bX
@@ -99,7 +100,8 @@ def createBlackBodyWave(dur, freq, vol, outputFile):
     duration_s = dur
     # Calculates waveform (basic sound processing)
     t = np.linspace(0, duration_s, sps * duration_s)
-    waveform = BlackBody(2 * np.pi * freq_Hz * t, 10) * rquiet * vol
+    #waveform = BlackBody(2 * np.pi * freq_Hz * t, 10) * rquiet * vol
+    waveform = BlackBody(2 * np.pi * freq_Hz * t) * rquiet * vol
     waveform_integers = np.int16(waveform * 2**(nbit-1)-1)
     # Output
     write(outputFile, sps, waveform_integers)
