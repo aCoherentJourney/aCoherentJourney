@@ -1,7 +1,6 @@
 import csv
 #from pydub import audio_segment
 import matplotlib.pyplot as plt
-from scipy import fftpack
 
 from aCoherentJourney.dataInput import *
 from aCoherentJourney.dataProcessing import *
@@ -44,7 +43,8 @@ createTimeline(inputFilePathFile(inputFile), outputFilePathFile("TestTimeline"))
 #createTimeline(inputFilePathFile(inputFile), outputFilePathFile("AMajorBlackBodyRhythmTimeline"), bar, [1,3], division)
 #createSoundsFromFile(inputFilePathFile(inputFile), outputFilePathFile("BlackBodyRhythmSounds"), "minor", "blackbody", bar, [1,3], division)
 #createTimeline(inputFilePathFile(inputFile), outputFilePathFile("AMinorBlackBodyRhythmTimelineNew"), bar, [1,3], division)
-createSoundsFromFile(inputFilePathFile(inputFile), outputFilePathFile("BlackBodyRhythmSounds"), "mixolydian", "blackbody", bar, [1,3], division)
-createTimeline(inputFilePathFile(inputFile), outputFilePathFile("GMixolydianBlackBodyRhythmTimelineNew"), bar, [0,2], division)
+#createSoundsFromFile(inputFilePathFile(inputFile), outputFilePathFile("BlackBodyRhythmSounds"), "mixolydianflat6", "blackbody", bar, [0,2], division)
+#createTimeline(inputFilePathFile(inputFile), outputFilePathFile("GMixolydianFlat6BlackBodyRhythmTimelineNew"), bar, [0,2], division)
+createSoundsTimelineFromFile(inputFilePathFile(inputFile), outputFilePathFile("BlackBodyRhythmSoundsCMajor"), "major", "blackbody", bar, [0,2], division)
 
 print(".wav files generated!")
