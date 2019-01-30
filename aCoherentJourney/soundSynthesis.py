@@ -16,7 +16,7 @@ from .soundOutput import *
 ### Creates saw wave or duration dur, frequency freq and volume vol and write it to sound file
 def createSawWave(dur, freq, vol, outputFile):
     # Volume regulation
-    rquiet = 0.01
+    rquiet = 0.1
     # Bit rate
     nbit = 16
     # Samples per second
@@ -36,7 +36,7 @@ def createSawWave(dur, freq, vol, outputFile):
 ### Creates square wave or duration dur, frequency freq and volume vol and write it to sound file
 def createSquareWave(dur, freq, vol, outputFile):
     # Volume regulation
-    rquiet = 0.01
+    rquiet = 0.1
     # Bit rate
     nbit = 16
     # Samples per second
@@ -56,7 +56,7 @@ def createSquareWave(dur, freq, vol, outputFile):
 ### Creates sine wave or duration dur, frequency freq and volume vol and write it to sound file
 def createSineWave(dur, freq, vol, outputFile):
     # Volume regulation
-    rquiet = 0.01
+    rquiet = 0.1
     # Bit rate
     nbit = 16
     # Samples per second
@@ -89,7 +89,7 @@ def createBlackBodyWave(dur, freq, vol, outputFile):
             bX = 0.
         return bX
     # Volume regulation
-    rquiet = 0.01
+    rquiet = 0.1
     # Bit rate
     nbit = 16
     # Samples per second

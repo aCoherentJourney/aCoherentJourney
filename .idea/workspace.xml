@@ -2,112 +2,51 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="818100e3-a9f3-429b-b741-e770147fd7a7" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/aCoherentJourney/dataInput.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/aCoherentJourney/dataProcessing.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/aCoherentJourney/soundOutput.py" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/aCoherentJourney/soundSynthesis.py" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/aCoherentJourney/synthesis.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/aCoherentJourney/synthesis_old.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/aCoherentJourney/test.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
-      <change beforePath="$PROJECT_DIR$/tests/first_sine_wave.py" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/tests/test.py" afterPath="$PROJECT_DIR$/tests/test.py" />
+      <change beforePath="$PROJECT_DIR$/aCoherentJourney/soundOutput.py" beforeDir="false" afterPath="$PROJECT_DIR$/aCoherentJourney/soundOutput.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/ALydianBlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/ALydianBlackBodyRhythmTimelineNew01.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/AMajorBlackBodyRhythmTimeline.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/AMajorBlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/AMajorBlackBodyRhythmTimelineNew01.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/AMinorBlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/AMixolydianBlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/AMixolydianBlackBodyRhythmTimelineNew01.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/AMixolydianFlat6BlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/BlackBodyRhythmSoundsCMajorFinal.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/BlackBodyRhythmSoundsMixolydianFinal.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/BlackBodyRhythmSoundsMixolydianFlat6Final.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMajorBlackBodyTimeline.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMajorSineRhythmTimeline.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMajorSineTimeline.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMinorBlackBodyRhythmTimeline02.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMinorBlackBodyRhythmTimelineBass.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMinorBlackBodyRhythmTimelineHigh.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMinorBlackBodyRhythmTimelineMid.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMinorBlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMinorBlackBodyTimeline.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMinorBlackBodyTimeline01.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/EMinorSineTimeline.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/GMajorBlackBodyRhythmTimeline.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/GMixolydianBlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/GMixolydianFlat6BlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/PadSoundAMinorBlackBodyRhythmTimelineNew.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestBackBody" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestBlackBody_n1e3_high.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestBlackBody_n1e3_low.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestBlackBody_n1e3_main.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestBlackBody_n1e3_mixed.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestSaw" beforeDir="false" afterPath="$PROJECT_DIR$/data/output/TestTestSaw" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestSaw.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestSine" beforeDir="false" afterPath="$PROJECT_DIR$/data/output/TestTestSine" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestSine.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTestSquare" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/TestTimeline.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test.py" afterDir="false" />
     </list>
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FavoritesManager">
-    <favorites_list name="aCoherentJourney" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="test.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="25" lean-forward="false" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="pip3" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/venv/bin/pip3">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/main.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.gitignore">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="21" lean-forward="false" selection-start-line="3" selection-start-column="21" selection-end-line="3" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dataInput.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/aCoherentJourney/dataInput.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="15" lean-forward="false" selection-start-line="3" selection-start-column="15" selection-end-line="3" selection-end-column="15" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="soundSynthesis.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/aCoherentJourney/soundSynthesis.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="soundOutput.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/aCoherentJourney/soundOutput.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
-              <caret line="59" column="0" lean-forward="true" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="dataProcessing.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/aCoherentJourney/dataProcessing.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -145,6 +84,7 @@
     <option name="width" value="1268" />
     <option name="height" value="701" />
   </component>
+  <component name="ProjectId" id="2J5UHq4F4oBgHGMZHeH2oflXTaG" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -221,9 +161,15 @@
       <pane id="Scope" />
     </panes>
   </component>
-  <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;last_opened_file_path&quot;: &quot;/Users/dennisfink/Workspace/Sandbox/aCoherentJourney&quot;
+  }
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/aCoherentJourney" />
@@ -231,20 +177,9 @@
       <recent name="$PROJECT_DIR$/tests" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="Python.test">
+  <component name="RunManager">
     <configuration name="first_sine_wave" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="aCoherentJourney" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -255,14 +190,17 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="aCoherentJourney" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/first_sine_wave.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="aCoherentJourney" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -273,14 +211,17 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="aCoherentJourney" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration name="numpy" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="aCoherentJourney" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -291,14 +232,17 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="aCoherentJourney" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/numpyBitch.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
     <configuration name="test" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="aCoherentJourney" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -309,31 +253,17 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="aCoherentJourney" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
       <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
     </configuration>
-    <list size="4">
-      <item index="0" class="java.lang.String" itemvalue="Python.test" />
-      <item index="1" class="java.lang.String" itemvalue="Python.numpy" />
-      <item index="2" class="java.lang.String" itemvalue="Python.first_sine_wave" />
-      <item index="3" class="java.lang.String" itemvalue="Python.main" />
-    </list>
-    <recent_temporary>
-      <list size="4">
-        <item index="0" class="java.lang.String" itemvalue="Python.test" />
-        <item index="1" class="java.lang.String" itemvalue="Python.main" />
-        <item index="2" class="java.lang.String" itemvalue="Python.first_sine_wave" />
-        <item index="3" class="java.lang.String" itemvalue="Python.numpy" />
-      </list>
-    </recent_temporary>
   </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
-  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -368,13 +298,6 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
-  </component>
-  <component name="VcsContentAnnotationSettings">
-    <option name="myLimit" value="2678400000" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager />
-    <watches-manager />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/tests/test.py">

@@ -1,4 +1,5 @@
 import random
+import scipy.optimize as scopt
 from aCoherentJourney.dataInput import *
 #import sys
 #sys.path.append('./../')
@@ -21,6 +22,26 @@ def scaleDur(x, inputFile):
         soundSilenceDurationRel[i] = soundDurationRel + silenceDurationRel
     # returns absolute total sound lenght, which is the duration of the timeline divided by the maximum "RELATIVE" total sound length
     return x / max(soundSilenceDurationRel)
+
+
+def volReg(x, inputFile):
+    data = getInputData(inputFile)
+    t = np.linspace(0, x, 1000)
+    durMax = scaleDur(x,inputFile)
+    def stepfunc(x, xmin, xmax):
+        if x < xmin:
+            x = xmin
+        if x < xmax:
+            return np.heaviside(x,1.)
+        if x >= xmax:
+            return 0.
+    for i in range(len(data)):
+        soundDuration = timeAcc(durMax * data[i,3], timeAcc)
+        silenceDuration = durMax * data[i,2]
+        soundSilenceDuration = soundDuration + silenceDuration
+        for j in range(len(overlap)):
+            overlap[j] += stepfunc(t[j] - silenceDuration, soundSilenceDuration)
+    return max(overlap)
 
 
 ### Scales length of total sound (= sound of silences before and after sound + sound itself) to length of timeline, where absolute length of the timeline in s is a fixed parameter
@@ -72,6 +93,26 @@ def scaleDurMeter(x, inputFile, bar, meter, division):
         output.append(vol[i])
     return np.array(output)
 
+
+def volRegMeter(x, inputFile, bar, meter, division):
+    durVec = scaleDurMeter(x, inputFile, bar, meter, division)
+    t = np.linspace(0, x, 1000)
+    overlap = np.zeros(1000)
+    def stepfunc(x, xmax):
+        if x < xmax:
+            return np.heaviside(x,1.)
+        if x >= xmax:
+            return 0.
+    for i in range(int(len(durVec)/3)):
+        soundDuration = durVec[3*i]
+        silenceDuration = durVec[i*3+1]
+        soundSilenceDuration = soundDuration + silenceDuration
+        for j in range(len(overlap)):
+            overlap[j] += stepfunc(t[j] - silenceDuration, soundSilenceDuration)
+        #print(overlap)
+    return max(overlap)
+
+        
 
 ### Converts data points within given range in a linear scale
 def convertLinData(x, dmax, dmin):
@@ -191,7 +232,7 @@ def freq2MinorConverter(freq): #    W-H-W-W-H-W-W
         pass
     # calculate note in minor or aeolian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
 
@@ -229,7 +270,7 @@ def freq2DorianConverter(freq): #    W-H-W-W-H-W-W
         pass
     # calculate note in dorian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
 
@@ -267,7 +308,7 @@ def freq2PhrygianConverter(freq): #    W-H-W-W-H-W-W
         pass
     # calculate note in phrygian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
 
@@ -305,7 +346,7 @@ def freq2LydianConverter(freq): #    W-H-W-W-H-W-W
         pass
     # calculate note in lydian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
 
@@ -343,7 +384,7 @@ def freq2MixolydianConverter(freq): #    W-H-W-W-H-W-W
         pass
     # calculate note in mixolydian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
 
@@ -381,7 +422,7 @@ def freq2LocrianConverter(freq): #    W-H-W-W-H-W-W
         pass
     # calculate note in locrian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq
 
 
@@ -419,5 +460,5 @@ def freq2MixolydianFlat6Converter(freq): #    W-H-W-W-H-W-W
         pass
     # calculate note in mixolydian scale
     noteFreq = freqKey * 2 ** (root + interval / 12)
-    print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
+    #print("Intervals in reference key: " + str(interval % 12) + " and frequency of notes: " + str(noteFreq) )
     return noteFreq

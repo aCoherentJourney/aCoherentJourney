@@ -1,4 +1,6 @@
 ./venv/
 ./data/
 ./tests/
-./.idea/workspace.xml
+.idea
+data/output
+__pycache__

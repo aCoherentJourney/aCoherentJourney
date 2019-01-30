@@ -4,7 +4,7 @@ import numpy as np
 outputFilePath = "./data/input/"
 
 #Ndat = 95*2**0
-Ndat = 100
+Ndat = 4000
 
 data = np.zeros([Ndat,3])
 
@@ -29,19 +29,25 @@ def ConstDataGen(x, soundDurationRel):
     dataConst = np.ones(x)# * soundDurationRel
     return dataConst
 
+def ConstDataGen(x, soundDurationRel):
+    dataConst = np.ones(x)# * soundDurationRel
+    return dataConst
+
 decayStrength = 0.01
 soundDurationRel = 0.1
-time = UniformRandDataGen(Ndat)
-#time = RhythmicRandDataGen(Ndat)
-#time = OrderDataGen(Ndat)
 freq = UniformRandDataGen(Ndat)
 #freq = ( 440 * 2**( (OrderDataGen(Ndat)) * 5 - 2) ) / 7040 
 vol = 1 - freq
 #vol =  np.sqrt( abs( -np.log(freq) * decayStrength) ) 
 duration = UniformRandDataGen(Ndat)
-duration = 1 - 0.5 * duration
+#duration = ConstDataGen(Ndat,1)
+#duration = 1 - 0.5 * duration
 #duration = UniformRandDataGen(Ndat)
+time = UniformRandDataGen(Ndat)
+#time = duration - 1
+#time = RhythmicRandDataGen(Ndat)
+#time = OrderDataGen(Ndat)
 data = np.array([vol, freq, time, duration])
 data = np.transpose(data)
 #print(data)
-np.savetxt(outputFilePath + 'testData4.csv', data, fmt = "%.10f", delimiter=",")
+np.savetxt(outputFilePath + 'testData4.csv', data, fmt = "%.6f", delimiter=",")
